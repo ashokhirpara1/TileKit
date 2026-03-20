@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MenuBarView: View {
     @EnvironmentObject var appState: AppState
+    @Environment(\.dismiss) private var dismiss
     @State private var selectedWindow: WindowInfo? = nil
 
     var body: some View {
@@ -41,7 +42,10 @@ struct MenuBarView: View {
             .padding(.vertical, 6)
         }
         .frame(width: 442)
-        .onAppear { appState.refreshWindows() }
+        .onAppear {
+            selectedWindow = nil
+            appState.refreshWindows()
+        }
     }
 
     // MARK: - Window List
@@ -148,7 +152,7 @@ struct MenuBarView: View {
             appState.tileWindow(win, to: zone)
             selectedWindow = nil
             // Close the popover
-            NSApp.keyWindow?.close()
+            dismiss()
         }) {
             ZonePreview(rect: zone.rect)
                 .frame(width: 44, height: 30)

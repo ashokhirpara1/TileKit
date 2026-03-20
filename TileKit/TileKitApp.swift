@@ -61,7 +61,13 @@ class AppState: ObservableObject {
     @Published var windows: [WindowInfo] = []
 
     func refreshWindows() {
-        windows = accessibilityService.listWindows()
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let fetched = self.accessibilityService.listWindows()
+            DispatchQueue.main.async {
+                self.windows = fetched
+            }
+        }
     }
 
     func tileWindow(_ info: WindowInfo, to zone: LayoutZone) {

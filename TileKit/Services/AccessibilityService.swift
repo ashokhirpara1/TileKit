@@ -62,6 +62,7 @@ class AccessibilityService {
             results.append(WindowInfo(
                 id: windowID,
                 pid: pidNum,
+                rawTitle: rawTitle,
                 windowTitle: windowTitle,
                 appName: appName,
                 appIcon: icon
@@ -134,7 +135,7 @@ class AccessibilityService {
             var titleRef: AnyObject?
             guard AXUIElementCopyAttributeValue(axWindow, kAXTitleAttribute as CFString, &titleRef) == .success,
                   let title = titleRef as? String else { return false }
-            return title == info.windowTitle
+            return title == info.rawTitle
         } ?? axWindows.first  // fallback: use first window if title match fails
 
         guard let window = target else { return }
