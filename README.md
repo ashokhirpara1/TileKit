@@ -10,6 +10,23 @@ TileKit lets you tile **any open window** to any layout — halves, thirds, quar
 
 ---
 
+## Why TileKit?
+
+macOS Sequoia introduced native window tiling, but it has real limitations:
+
+| | macOS Built-in | TileKit |
+|---|---|---|
+| Tile any open window | ❌ Must drag to edge or use green button | ✅ Pick any window from a list |
+| Thirds & quarters | ❌ Halves only | ✅ Thirds, quarters, two-thirds, custom |
+| Custom layouts | ❌ Fixed presets only | ✅ Define your own zones and ratios |
+| Hotkeys for any layout | ❌ Limited | ✅ Assign shortcuts to any zone |
+| Works on macOS 14 | ❌ Tiling is macOS 15+ only | ✅ Works from macOS 14 (Sonoma) |
+| Menu bar control | ❌ No | ✅ One click from menu bar |
+
+**The core problem:** macOS tiling requires you to already have the window focused and visible. If you want to arrange 3 windows at once, you have to switch to each one individually. TileKit lets you tile any window from wherever you are — no switching, no dragging.
+
+---
+
 ## Screenshots
 
 ### Window Picker
