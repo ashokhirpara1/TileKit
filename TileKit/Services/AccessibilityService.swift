@@ -123,6 +123,26 @@ class AccessibilityService {
         moveWindow(window, to: pixelRect)
     }
 
+    func tileWindow(_ info: WindowInfo, to unitRect: UnitRect) {
+        let axApp = AXUIElementCreateApplication(info.pid)
+        var windowsRef: AnyObject?
+        guard AXUIElementCopyAttributeValue(axApp, kAXWindowsAttribute as CFString, &windowsRef) == .success,
+              let axWindows = windowsRef as? [AXUIElement] else { return }
+
+        // Find the AX window whose title matches
+        let target = axWindows.first { axWindow in
+            var titleRef: AnyObject?
+            guard AXUIElementCopyAttributeValue(axWindow, kAXTitleAttribute as CFString, &titleRef) == .success,
+                  let title = titleRef as? String else { return false }
+            return title == info.windowTitle
+        } ?? axWindows.first  // fallback: use first window if title match fails
+
+        guard let window = target else { return }
+        let screen = screenForWindow(window) ?? NSScreen.main ?? NSScreen.screens[0]
+        let pixelRect = resolveRect(unitRect, on: screen)
+        moveWindow(window, to: pixelRect)
+    }
+
     func resolveRect(_ unitRect: UnitRect, on screen: NSScreen) -> CGRect {
         let visible = screen.visibleFrame
         let primaryHeight = NSScreen.screens[0].frame.height
