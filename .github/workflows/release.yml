@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set version
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Generate app icon
+        run: swift scripts/make_icon.swift TileKit/TileKit/Resources
+
+      - name: Build and package DMG
+        run: bash scripts/build.sh ${{ steps.version.outputs.VERSION }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: TileKit ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## TileKit ${{ steps.version.outputs.VERSION }}
+
+            ### Install
+            1. Download `TileKit-${{ steps.version.outputs.VERSION }}.dmg`
+            2. Open the DMG and drag TileKit to Applications
+            3. Right-click → Open on first launch (Gatekeeper bypass)
+
+            **Or via Homebrew** (once cask is published):
+            ```
+            brew install --cask tilekit --no-quarantine
+            ```
+          files: dist/TileKit-${{ steps.version.outputs.VERSION }}.dmg
+          draft: false
+          prerelease: false

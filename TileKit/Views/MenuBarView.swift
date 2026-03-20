@@ -110,7 +110,19 @@ struct MenuBarView: View {
 
     private var zoneGrid: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+                if selectedWindow == nil {
+                    VStack(spacing: 4) {
+                        Image(systemName: "arrow.left")
+                            .foregroundColor(.secondary)
+                        Text("Select a window")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 120)
+                }
+
                 ForEach(appState.layouts) { layout in
                     Text(layout.name)
                         .font(.caption)
@@ -119,7 +131,8 @@ struct MenuBarView: View {
                         .padding(.top, 6)
                         .padding(.bottom, 2)
 
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 44), spacing: 6)], spacing: 6) {
+                    let columns = [GridItem(.adaptive(minimum: 44), spacing: 6)]
+                    LazyVGrid(columns: columns, spacing: 6) {
                         ForEach(layout.zones) { zone in
                             zoneButton(zone)
                         }
@@ -130,19 +143,6 @@ struct MenuBarView: View {
             }
             .padding(.vertical, 4)
         }
-        .overlay(
-            Group {
-                if selectedWindow == nil {
-                    VStack(spacing: 4) {
-                        Image(systemName: "arrow.left")
-                            .foregroundColor(.secondary)
-                        Text("Select a window")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
-        )
     }
 
     private func zoneButton(_ zone: LayoutZone) -> some View {
