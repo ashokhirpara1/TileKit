@@ -204,6 +204,6 @@ xcodebuild -scheme TileKit -destination "platform=macOS" build
 
 If TileKit saves you time every day, consider buying me a coffee ☕
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/ashokhirpara)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/ashokhirpara1)
 
 Every coffee helps keep this project maintained and free for everyone.
